@@ -21,6 +21,7 @@ namespace console
 		utils::image::object logo;
 		std::atomic_bool started{false};
 		std::atomic_bool terminate_runner{false};
+		std::atomic_bool console_shown{false}; //new bool so i could maybe make it so that u can toggle the console back on after closing it idk. i kinda find it in the way, just a personal thing tbh.
 		utils::concurrency::container<std::function<void(const std::string& message)>> interceptor{};
 		utils::concurrency::container<std::queue<std::string>> message_queue{};
 
@@ -112,8 +113,9 @@ namespace console
 				SetTextColor(reinterpret_cast<HDC>(wparam), RGB(232, 230, 227));
 				return get_gray_brush();
 			case WM_CLOSE:
-				game::Cbuf_AddText(0, "quit\n");
-				[[fallthrough]];
+				ShowWindow(hwnd, SW_HIDE); // Hide the console instead of closing the entire client
+				console_shown = false;
+				return 0;
 			default:
 				return utils::hook::invoke<LRESULT>(game::select(0x142332960, 0x1405973E0), hwnd, msg, wparam, lparam);
 			}
@@ -121,6 +123,24 @@ namespace console
 
 		LRESULT input_line_wnd_proc(const HWND hwnd, const UINT msg, const WPARAM wparam, const LPARAM lparam)
 		{
+			if (msg == WM_KEYDOWN && wparam == VK_RETURN)
+			{
+				//made it so /connect is the only command allowed so that players cant cheat any speedruns
+				char buffer[1024];
+				GetWindowTextA(hwnd, buffer, sizeof(buffer));
+				std::string input(buffer);
+				std::transform(input.begin(), input.end(), input.begin(), ::tolower);
+				if (input.rfind("connect", 0) == 0)
+				{
+					return utils::hook::invoke<LRESULT>(game::select(0x142332C60, 0x1405976E0), hwnd, msg, wparam, lparam);
+				}
+				else
+				{
+					print_message("Command not allowed or found on BOIII Vanilla!\n");
+				}
+				SetWindowTextA(hwnd, "");
+				return 0;
+			}
 			return utils::hook::invoke<LRESULT>(game::select(0x142332C60, 0x1405976E0), hwnd, msg, wparam, lparam);
 		}
 
@@ -195,10 +215,11 @@ namespace console
 				SendMessageA(*game::s_wcd::codLogo, STM_SETIMAGE, IMAGE_BITMAP, logo);
 			}
 
-			// create the input line
+			//Creates the input line. I removed this in a previous version entirely but we need it for /connect so i added it back and filtered out all other commands.
 			utils::hook::set<HWND>(game::s_wcd::hwndInputLine, CreateWindowExA(
 				                       0, "edit", nullptr, 0x50800080u, 6, 400, WINDOW_WIDTH, 20, *game::s_wcd::hWnd,
 				                       reinterpret_cast<HMENU>(0x65), h_instance, nullptr));
+
 			utils::hook::set<HWND>(game::s_wcd::hwndBuffer, CreateWindowExA(
 				                       0, "edit", nullptr, 0x50A00844u, 6, 70, WINDOW_WIDTH, 324, *game::s_wcd::hWnd,
 				                       reinterpret_cast<HMENU>(0x64), h_instance, nullptr));
@@ -266,8 +287,11 @@ namespace console
 		{
 			if (!game::is_server())
 			{
-				utils::hook::set<uint8_t>(0x14133D2FE_g, 0xEB); // Always enable ingame console
-				utils::hook::jump(0x141344E44_g, 0x141344E2E_g); // Remove the need to type '\' or '/' to send a console command
+				//this used to always allow the dev console in-game even without mods. this is super useful for other reasons but in a speedrunning perspective, this makes it easier for players to potentially cheat
+				//such as timescale, developer 2, ufo, god, etc. So this will be disabled entirely.
+				//utils::hook::set<uint8_t>(0x14133D2FE_g, 0xEB);
+
+				utils::hook::jump(0x141344E44_g, 0x141344E2E_g); // Remove the need to type '\' or '/' to send a console command (thanks for adding this ezz)
 
 				if (utils::nt::is_wine() && !utils::flags::has_flag("console"))
 				{
@@ -303,6 +327,30 @@ namespace console
 						current_queue.pop();
 					}
 
+					//prob gonna make it so the console doesnt open by default but can be opened with ctrl+shift+m or something like that
+					/*if (GetAsyncKeyState(VK_CONTROL) && GetAsyncKeyState(VK_SHIFT) && GetAsyncKeyState('M'))
+					{
+						if (!console_shown)
+						{
+							if (game::s_wcd::hWnd && *game::s_wcd::hWnd)
+							{
+								ShowWindow(*game::s_wcd::hWnd, SW_SHOW);
+								console_shown = true;
+								std::this_thread::sleep_for(10ms);
+							}
+							else
+							{
+								print_message("Console window handle is invalid.\n");
+							}
+						}
+						else
+						{
+							ShowWindow(*game::s_wcd::hWnd, SW_HIDE);
+							console_shown = false;
+							std::this_thread::sleep_for(10ms);
+						}
+					}*/
+
 					if (!message_buffer.empty())
 					{
 						print_message_to_console(message_buffer.data());
@@ -318,6 +366,7 @@ namespace console
 					static utils::hook::detour sys_create_console_hook;
 					sys_create_console_hook.create(game::select(0x142332E00, 0x140597880), sys_create_console_stub);
 
+					//may remove this soon and make it so the console isnt opened by default, and is only opened when needed
 					game::Sys_ShowConsole();
 					started = true;
 				}
@@ -325,6 +374,8 @@ namespace console
 				MSG msg{};
 				while (!terminate_runner)
 				{
+					// Check if Dvar is changed to show the console
+					
 					if (PeekMessageW(&msg, nullptr, NULL, NULL, PM_REMOVE))
 					{
 						TranslateMessage(&msg);

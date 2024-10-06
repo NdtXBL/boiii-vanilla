@@ -67,11 +67,13 @@ namespace loot
 			return liveinventory_getitemquantity_hook.invoke<int>(controller_index, item_id);
 		}
 
+		//working on all of these soon to work on multiplayer/zombies but not the campaign. some of them still happened to unlock campaign stuff so i just disabled all.
 		bool liveinventory_areextraslotspurchased_stub(const game::ControllerIndex_t controller_index)
 		{
 			if (dvar_cg_unlockall_cac_slots->current.value.enabled)
 			{
-				return true;
+				//disabled as of right now since there is no reference to game::eModes. Will work on it soon.
+				//return true;
 			}
 
 			return liveinventory_areextraslotspurchased_hook.invoke<bool>(controller_index);
@@ -79,9 +81,10 @@ namespace loot
 
 		bool bg_unlockablesisitempurchased_stub(game::eModes mode, const game::ControllerIndex_t controller_index, int item_index)
 		{
-			if (dvar_cg_unlockall_purchases->current.value.enabled)
+			if (dvar_cg_unlockall_purchases->current.value.enabled && mode != game::eModes::MODE_CAMPAIGN)
 			{
-				return true;
+				//disabled as of right now since there is no reference to game::eModes. Will work on it soon.
+				//return true;
 			}
 
 			return bg_unlockablesisitempurchased_hook.invoke<bool>(mode, controller_index, item_index);
@@ -89,9 +92,10 @@ namespace loot
 
 		bool bg_unlockablesisitemattachmentlocked_stub(game::eModes mode, const game::ControllerIndex_t controller_index, int item_index, int attachment_num)
 		{
-			if (dvar_cg_unlockall_attachments->current.value.enabled)
+			//disabled in the campaign as it provides an unfair advantage on NG (and glitchless NG) runs
+			if (dvar_cg_unlockall_attachments->current.value.enabled && mode != game::eModes::MODE_CAMPAIGN)
 			{
-				return false;
+				//return false;
 			}
 
 			return bg_unlockablesisitemattachmentlocked_hook.invoke<bool>(mode, controller_index, item_index, attachment_num);
@@ -99,9 +103,10 @@ namespace loot
 
 		bool bg_unlockablesisattachmentslotlocked_stub(game::eModes mode, const game::ControllerIndex_t controller_index, int item_index, int attachment_slot_index)
 		{
-			if (dvar_cg_unlockall_attachments->current.value.enabled)
+			//disabled in the campaign as it provides an unfair advantage on NG (and glitchless NG) runs
+			if (dvar_cg_unlockall_attachments->current.value.enabled && mode != game::eModes::MODE_CAMPAIGN)
 			{
-				return false;
+				//return false;
 			}
 
 			return bg_unlockablesisattachmentslotlocked_hook.invoke<bool>(mode, controller_index, item_index, attachment_slot_index);
@@ -109,9 +114,10 @@ namespace loot
 
 		bool bg_unlockablesitemoptionlocked_stub(game::eModes mode, const game::ControllerIndex_t controllerIndex, int itemIndex, int optionIndex)
 		{
-			if (dvar_cg_unlockall_camos_and_reticles->current.value.enabled)
+			//disabled in the campaign as it provides an unfair advantage on NG (and glitchless NG) runs
+			if (dvar_cg_unlockall_camos_and_reticles->current.value.enabled && mode != game::eModes::MODE_CAMPAIGN)
 			{
-				return false;
+				//return false;
 			}
 
 			return bg_unlockablesitemoptionlocked_hook.invoke<bool>(mode, controllerIndex, itemIndex, optionIndex);
@@ -119,9 +125,10 @@ namespace loot
 
 		bool bg_unlockablesemblemorbackinglockedbychallenge_stub(game::eModes mode, const game::ControllerIndex_t controllerIndex, game::emblemChallengeLookup_t* challengeLookup, bool otherPlayer)
 		{
-			if (dvar_cg_unlockall_calling_cards->current.value.enabled)
+			//disabled in the campaign
+			if (dvar_cg_unlockall_calling_cards->current.value.enabled && mode != game::eModes::MODE_CAMPAIGN)
 			{
-				return false;
+				//return false;
 			}
 
 			return bg_unlockablesemblemorbackinglockedbychallenge_hook.invoke<bool>(mode, controllerIndex, challengeLookup, otherPlayer);
@@ -129,9 +136,10 @@ namespace loot
 
 		bool bg_unlockedgetchallengeunlockedforindex_stub(game::eModes mode, const game::ControllerIndex_t controllerIndex, unsigned __int16 index, int itemIndex)
 		{
-			if (dvar_cg_unlockall_camos_and_reticles->current.value.enabled)
+			//disabled in the campaign
+			if (dvar_cg_unlockall_camos_and_reticles->current.value.enabled && mode != game::eModes::MODE_CAMPAIGN)
 			{
-				return true;
+				//return true;
 			}
 
 			return bg_unlockedgetchallengeunlockedforindex_hook.invoke<bool>(mode, controllerIndex, index, itemIndex);
@@ -139,9 +147,10 @@ namespace loot
 
 		bool bg_unlockablescharactercustomizationitemlocked_stub(game::eModes mode, const game::ControllerIndex_t controllerIndex, uint32_t characterIndex, game::CharacterItemType itemType, int itemIndex)
 		{
-			if (dvar_cg_unlockall_specialists_outfits->current.value.enabled)
+			//disabled in the campaign
+			if (dvar_cg_unlockall_specialists_outfits->current.value.enabled && mode != game::eModes::MODE_CAMPAIGN)
 			{
-				return false;
+				//return false;
 			}
 
 			return bg_unlockablescharactercustomizationitemlocked_hook.invoke<bool>(mode, controllerIndex, characterIndex, itemType, itemIndex);
@@ -162,9 +171,10 @@ namespace loot
 		bool liveentitlements_isentitlementactiveforcontroller_stub(const game::ControllerIndex_t controllerIndex, int incentiveId)
 		{
 			// incentiveId for unavailable incentive
+			//disabled in the campaign
 			if (dvar_cg_unlockall_calling_cards->current.value.enabled && incentiveId != 29)
 			{
-				return true;
+				//return true;
 			}
 
 			return liveentitlements_isentitlementactiveforcontroller_hook.invoke<bool>(controllerIndex, incentiveId);
@@ -172,7 +182,8 @@ namespace loot
 
 		int bg_unlockablesgetcustomclasscount_stub(game::eModes mode, const game::ControllerIndex_t controllerIndex)
 		{
-			if (dvar_cg_unlockall_cac_slots->current.value.enabled)
+			//disabled in the campaign because this still returned 10 for the class count in the campaign, making shit pretty weird lol
+			if (dvar_cg_unlockall_cac_slots->current.value.enabled && mode != game::eModes::MODE_CAMPAIGN)
 			{
 				return 10;
 			}

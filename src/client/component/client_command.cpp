@@ -14,26 +14,30 @@ namespace client_command
 	namespace
 	{
 		std::unordered_map<std::string, callback> handlers;
-
+		//i could be a dumbass cuz this didnt do anything but in command.cpp i got something going. looked through this too quit, i was assuming this maybe had to do with the dev console in-game but i disabled that without mods anyways. might revert this soon.
 		void client_command_stub(const int client_num)
 		{
 			const auto ent = &game::g_entities[client_num];
-
 			if (ent->client == nullptr)
 			{
-				// Client is not fully in game
 				return;
 			}
-
 			const command::params_sv params;
-
 			const auto command = utils::string::to_lower(params.get(0));
-			if (const auto got = handlers.find(command); got != handlers.end())
+			//logs all commands, but doesnt process them unless its /connect
+			if (command == "connect")
 			{
-				got->second(ent, params);
+				if (const auto got = handlers.find(command); got != handlers.end())
+				{
+					got->second(ent, params);
+					return;
+				}
+			}
+			else
+			{
+				game::Com_Printf(0, 0, "%s", "Command not allowed!\n");
 				return;
 			}
-
 			utils::hook::invoke<void>(0x140295C40_g, client_num);
 		}
 	}

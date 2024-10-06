@@ -6,11 +6,13 @@
 
 #include <utils/hook.hpp>
 
+//going to take a look at these all individually soon but I think I know what it is im just lazy asf rn.
+//something in here is making the safehouse timer be ignored on co-op. as much as i hate this, i think it provides an unfair advantage in a speedrunning perspective so i disabled it.
 namespace patches
 {
 	namespace
 	{
-		const game::dvar_t* lobby_min_players;
+		/*const game::dvar_t* lobby_min_players;
 
 		void script_errors_stub([[maybe_unused]] const char* file, [[maybe_unused]] int line,
 			[[maybe_unused]] unsigned int code, const char* fmt, ...)
@@ -55,14 +57,14 @@ namespace patches
 			}
 
 			game::SV_ExecuteClientMessage(client, msg);
-		}
+		}*/
 	}
 
 	struct component final : generic_component
 	{
 		void post_unpack() override
 		{
-			// print hexadecimal xuids in chat game log command
+			/*   // print hexadecimal xuids in chat game log command
 			utils::hook::set<char>(game::select(0x142FD9362, 0x140E16FA2), 'x');
 
 			// don't make script errors fatal error
@@ -77,7 +79,7 @@ namespace patches
 			utils::hook::call(game::select(0x14225489C, 0x140537C4C), sv_execute_client_messages_stub);
 
 			lobby_min_players = game::register_dvar_int("lobby_min_players", 0, 0, 8, game::DVAR_NONE, "");
-			utils::hook::jump(game::select(0x141A7BCF0, 0x1402CB900), scr_get_num_expected_players, true);
+			utils::hook::jump(game::select(0x141A7BCF0, 0x1402CB900), scr_get_num_expected_players, true);*/
 		}
 	};
 }

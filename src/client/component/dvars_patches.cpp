@@ -20,11 +20,11 @@ namespace dvars_patches
 		{
 			if (game::is_client())
 			{
-				game::dvar_set_flags("r_dof_enable", game::DVAR_ARCHIVE);
+				/*game::dvar_set_flags("r_dof_enable", game::DVAR_ARCHIVE);
 				game::dvar_set_flags("r_lodbiasrigid", game::DVAR_ARCHIVE);
 				game::dvar_set_flags("gpad_stick_deadzone_max", game::DVAR_ARCHIVE);
 				game::dvar_set_flags("gpad_stick_deadzone_min", game::DVAR_ARCHIVE);
-				game::dvar_set_flags("cg_drawLagometer", game::DVAR_ARCHIVE);
+				game::dvar_set_flags("cg_drawLagometer", game::DVAR_ARCHIVE);*/
 			}
 
 			scheduler::execute(scheduler::pipeline::dvars_flags_patched);
@@ -72,7 +72,7 @@ namespace dvars_patches
 		static void patch_server()
 		{
 			// Set the max value of 'sv_network_fps'
-			utils::hook::set<uint32_t>(0x140534FE7_g, 1000);
+			//utils::hook::set<uint32_t>(0x140534FE7_g, 1000);
 
 			// Set the flag of 'sv_network_fps'
 			utils::hook::set<uint32_t>(0x140534FD8_g, game::DVAR_NONE);
