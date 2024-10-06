@@ -129,7 +129,7 @@ namespace utils::properties
 			CoTaskMemFree(path);
 		});
 
-		static auto appdata = std::filesystem::path(path) / "boiii";
+		static auto appdata = std::filesystem::path(path) / "boiii_vanilla";
 		return appdata;
 	}
 
