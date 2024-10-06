@@ -13,5 +13,5 @@ BOIII Vanilla is a slightly modified version of the Ezz Client, designed to avoi
 
 **Why Use This Over Vanilla BO3?**
 - For most people, the BOIII client runs much smoother than BO3 due to the FPS issues associated with the steam update
-- If something ever happens to the BO3 or steam servers, this client emulates online services. This means that you can still use online features such as the gunsmith (variants for Any%), swag features (like paintshop, custom emblems, etc.), and joining other players for co-op by using radmin VPN or hamachi
-- Much more secure than vanilla BO3
+- If something ever happens to the BO3 or steam servers, this client emulates online services. You can be entirely offline and still be an emulated online environment, and all data is stored on the boiii_players folder under the BO3 directory. This means that you can still use online features such as the gunsmith (variants for Any%), swag features (like paintshop, custom emblems, etc.), and joining other players for co-op by using radmin VPN or hamachi. This also means we can share saves from this emulated online environment (very cool). Huge for preservation of the game as well.
+- Much more secure than vanilla BO3. BO3 is known to be plagued with hackers, the BOIII client adds an extra layer of security over that thanks to the teams that have created it. T7 Patch is another option but that seems to not work for most people on campaign as it fails to boot you into missions while in the safehouse.
