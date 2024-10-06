@@ -299,6 +299,7 @@ int main()
 
 			const auto is_server = utils::flags::has_flag("dedicated") || (!has_client && has_server);
 
+			//modified to check for BlackOps3.exe in the steam directory if it isnt originally found in the same directory as BOIII. If steam directory is found, the program directory is switched to that instead so BOIII can run.
 			if (!has_client && !has_server)
 			{
 				std::filesystem::path steamPath = steam::SteamAPI_GetSteamInstallPath();

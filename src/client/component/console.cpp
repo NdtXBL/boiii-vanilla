@@ -327,16 +327,18 @@ namespace console
 						current_queue.pop();
 					}
 
-					//prob gonna make it so the console doesnt open by default but can be opened with ctrl+shift+m or something like that
-					/*if (GetAsyncKeyState(VK_CONTROL) && GetAsyncKeyState(VK_SHIFT) && GetAsyncKeyState('M'))
+					//console opens when ctrl+shift+m is used
+					if (GetAsyncKeyState(VK_CONTROL) && GetAsyncKeyState(VK_SHIFT) && GetAsyncKeyState('M'))
 					{
 						if (!console_shown)
 						{
+							auto dc = GetDC(*game::s_wcd::hWnd);
+							auto wnd = WindowFromDC(dc);
 							if (game::s_wcd::hWnd && *game::s_wcd::hWnd)
 							{
-								ShowWindow(*game::s_wcd::hWnd, SW_SHOW);
+								ShowWindow(wnd, SW_SHOW);
 								console_shown = true;
-								std::this_thread::sleep_for(10ms);
+								std::this_thread::sleep_for(500ms);
 							}
 							else
 							{
@@ -347,9 +349,9 @@ namespace console
 						{
 							ShowWindow(*game::s_wcd::hWnd, SW_HIDE);
 							console_shown = false;
-							std::this_thread::sleep_for(10ms);
+							std::this_thread::sleep_for(500ms);
 						}
-					}*/
+					}
 
 					if (!message_buffer.empty())
 					{
@@ -366,9 +368,14 @@ namespace console
 					static utils::hook::detour sys_create_console_hook;
 					sys_create_console_hook.create(game::select(0x142332E00, 0x140597880), sys_create_console_stub);
 
-					//may remove this soon and make it so the console isnt opened by default, and is only opened when needed
 					game::Sys_ShowConsole();
 					started = true;
+
+					//console is hidden by default
+					auto dc = GetDC(*game::s_wcd::hWnd);
+					auto wnd = WindowFromDC(dc);
+					ShowWindow(*game::s_wcd::hWnd, SW_HIDE);
+					console_shown = false;
 				}
 
 				MSG msg{};

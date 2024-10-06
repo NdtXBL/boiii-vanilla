@@ -67,13 +67,12 @@ namespace loot
 			return liveinventory_getitemquantity_hook.invoke<int>(controller_index, item_id);
 		}
 
-		//working on all of these soon to work on multiplayer/zombies but not the campaign. some of them still happened to unlock campaign stuff so i just disabled all.
-		bool liveinventory_areextraslotspurchased_stub(const game::ControllerIndex_t controller_index)
+		bool liveinventory_areextraslotspurchased_stub(game::eModes mode, const game::ControllerIndex_t controller_index)
 		{
-			if (dvar_cg_unlockall_cac_slots->current.value.enabled)
+			//disabled in the campaign as it provides an unfair advantage on NG (and glitchless NG) runs
+			if (dvar_cg_unlockall_cac_slots->current.value.enabled && mode != game::eModes::MODE_CAMPAIGN)
 			{
-				//disabled as of right now since there is no reference to game::eModes. Will work on it soon.
-				//return true;
+				return true;
 			}
 
 			return liveinventory_areextraslotspurchased_hook.invoke<bool>(controller_index);
@@ -81,10 +80,10 @@ namespace loot
 
 		bool bg_unlockablesisitempurchased_stub(game::eModes mode, const game::ControllerIndex_t controller_index, int item_index)
 		{
+			//disabled in the campaign as it provides an unfair advantage on NG (and glitchless NG) runs
 			if (dvar_cg_unlockall_purchases->current.value.enabled && mode != game::eModes::MODE_CAMPAIGN)
 			{
-				//disabled as of right now since there is no reference to game::eModes. Will work on it soon.
-				//return true;
+				return true;
 			}
 
 			return bg_unlockablesisitempurchased_hook.invoke<bool>(mode, controller_index, item_index);
@@ -95,7 +94,7 @@ namespace loot
 			//disabled in the campaign as it provides an unfair advantage on NG (and glitchless NG) runs
 			if (dvar_cg_unlockall_attachments->current.value.enabled && mode != game::eModes::MODE_CAMPAIGN)
 			{
-				//return false;
+				return false;
 			}
 
 			return bg_unlockablesisitemattachmentlocked_hook.invoke<bool>(mode, controller_index, item_index, attachment_num);
@@ -106,7 +105,7 @@ namespace loot
 			//disabled in the campaign as it provides an unfair advantage on NG (and glitchless NG) runs
 			if (dvar_cg_unlockall_attachments->current.value.enabled && mode != game::eModes::MODE_CAMPAIGN)
 			{
-				//return false;
+				return false;
 			}
 
 			return bg_unlockablesisattachmentslotlocked_hook.invoke<bool>(mode, controller_index, item_index, attachment_slot_index);
@@ -117,7 +116,7 @@ namespace loot
 			//disabled in the campaign as it provides an unfair advantage on NG (and glitchless NG) runs
 			if (dvar_cg_unlockall_camos_and_reticles->current.value.enabled && mode != game::eModes::MODE_CAMPAIGN)
 			{
-				//return false;
+				return false;
 			}
 
 			return bg_unlockablesitemoptionlocked_hook.invoke<bool>(mode, controllerIndex, itemIndex, optionIndex);
@@ -128,7 +127,7 @@ namespace loot
 			//disabled in the campaign
 			if (dvar_cg_unlockall_calling_cards->current.value.enabled && mode != game::eModes::MODE_CAMPAIGN)
 			{
-				//return false;
+				return false;
 			}
 
 			return bg_unlockablesemblemorbackinglockedbychallenge_hook.invoke<bool>(mode, controllerIndex, challengeLookup, otherPlayer);
@@ -139,7 +138,7 @@ namespace loot
 			//disabled in the campaign
 			if (dvar_cg_unlockall_camos_and_reticles->current.value.enabled && mode != game::eModes::MODE_CAMPAIGN)
 			{
-				//return true;
+				return true;
 			}
 
 			return bg_unlockedgetchallengeunlockedforindex_hook.invoke<bool>(mode, controllerIndex, index, itemIndex);
@@ -150,7 +149,7 @@ namespace loot
 			//disabled in the campaign
 			if (dvar_cg_unlockall_specialists_outfits->current.value.enabled && mode != game::eModes::MODE_CAMPAIGN)
 			{
-				//return false;
+				return false;
 			}
 
 			return bg_unlockablescharactercustomizationitemlocked_hook.invoke<bool>(mode, controllerIndex, characterIndex, itemType, itemIndex);
@@ -171,10 +170,9 @@ namespace loot
 		bool liveentitlements_isentitlementactiveforcontroller_stub(const game::ControllerIndex_t controllerIndex, int incentiveId)
 		{
 			// incentiveId for unavailable incentive
-			//disabled in the campaign
 			if (dvar_cg_unlockall_calling_cards->current.value.enabled && incentiveId != 29)
 			{
-				//return true;
+				return true;
 			}
 
 			return liveentitlements_isentitlementactiveforcontroller_hook.invoke<bool>(controllerIndex, incentiveId);
@@ -194,6 +192,7 @@ namespace loot
 		bool gscr_isitempurchasedforclientnum_stub([[maybe_unused]] unsigned int clientNum,
 												   [[maybe_unused]] int itemIndex)
 		{
+			//this function doesn't run, explained on post_unpack
 			return true;
 		}
 	};
@@ -202,7 +201,8 @@ namespace loot
 	{
 		void post_unpack() override
 		{
-			gscr_isitempurchasedforclientnum_hook.create(game::select(0x1415F1490, 0x140252A20), gscr_isitempurchasedforclientnum_stub);
+			//disabled as this causes the game to reward the player with two campaign decorations (unlock all items, unlock all cybercores) and rewards the player 10000 XP, providing an unfair advantage on NG and NG Glitchless
+			//gscr_isitempurchasedforclientnum_hook.create(game::select(0x1415F1490, 0x140252A20), gscr_isitempurchasedforclientnum_stub);
 
 			if (game::is_server())
 			{
