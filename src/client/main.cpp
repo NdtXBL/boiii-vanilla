@@ -251,6 +251,11 @@ namespace
 	}
 }
 
+bool change_directory(const std::string& path)
+{
+	return SetCurrentDirectory(path.c_str()) != 0;
+}
+
 int main()
 {
 	if (handle_process_runner())
@@ -296,9 +301,29 @@ int main()
 
 			if (!has_client && !has_server)
 			{
-				//im gonna make it so that it looks for the bo3 installation folder for these files if this occurs
-				throw std::runtime_error(
-					"Can't find a valid BlackOps3.exe or BlackOps3_UnrankedDedicatedServer.exe. Make sure you put boiii_vanilla.exe in your Black Ops 3 installation folder.");
+				std::filesystem::path steamPath = steam::SteamAPI_GetSteamInstallPath();
+				steamPath /= "steamapps/common/Call of Duty Black Ops III";
+				const auto has_steamPath = utils::io::directory_exists(steamPath);
+				if (!has_steamPath)
+				{
+					throw std::runtime_error("BO3's steam installation path not found. Please ensure BO3 is installed on steam. Otherwise, you can place this program into the same directory as BlackOps3.exe.");
+				}
+				std::filesystem::path steam_client_path = steamPath / "BlackOps3.exe";
+				std::filesystem::path steam_server_path = steamPath / "BlackOps3_UnrankedDedicatedServer.exe";
+				const auto steam_has_client = std::filesystem::exists(steam_client_path);
+				const auto steam_has_server = std::filesystem::exists(steam_server_path);
+				if (!steam_has_client && !steam_has_server)
+				{
+					throw std::runtime_error(
+						"Can't find a valid BlackOps3.exe or BlackOps3_UnrankedDedicatedServer.exe in either the current directory or the Steam installation folder. Make sure you put boiii_vanilla.exe in your Black Ops 3 installation folder or verify your Steam installation.");
+				}
+				if (steam_has_client || steam_has_server)
+				{
+					if (!change_directory(steamPath.string()))
+					{
+						throw std::runtime_error("Failed to change the working directory to the Steam folder.");
+					}
+				}
 			}
 
 			if (!is_server)

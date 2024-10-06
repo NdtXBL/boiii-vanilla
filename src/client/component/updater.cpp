@@ -5,6 +5,7 @@
 
 #include <utils/flags.hpp>
 #include <updater/updater.hpp>
+#include <steam/steam.hpp>
 
 #include <ShlObj.h>
 #include <filesystem>
@@ -16,24 +17,6 @@
 namespace updater
 {
 	//boiii vanilla installation functions are below. boiii ezz would install through online instead, whereas this is all done manually.
-	std::filesystem::path get_steam_directory()
-	{
-		HKEY hKey;
-		char steamPath[256];
-		DWORD bufferSize = sizeof(steamPath);
-
-		if (RegOpenKeyExA(HKEY_LOCAL_MACHINE, "SOFTWARE\\WOW6432Node\\Valve\\Steam", 0, KEY_READ, &hKey) == ERROR_SUCCESS)
-		{
-			RegQueryValueExA(hKey, "InstallPath", nullptr, nullptr, (LPBYTE)steamPath, &bufferSize);
-			RegCloseKey(hKey);
-			return std::filesystem::path(steamPath);
-		}
-		else
-		{
-			throw std::runtime_error("Unable to find Steam directory in the registry.");
-		}
-	}
-
 	void install_desktopshortcut(const std::filesystem::path& targetExe, const std::string& shortcutName, const std::filesystem::path& workingDirectory) {
 		CoInitialize(nullptr);
 		IShellLink* pShellLink = nullptr;
@@ -66,7 +49,7 @@ namespace updater
 	{
 		try
 		{
-			std::filesystem::path steamPath = get_steam_directory();
+			std::filesystem::path steamPath = steam::SteamAPI_GetSteamInstallPath();
 			std::filesystem::path bo3Folder = steamPath / "steamapps/common/Call of Duty Black Ops III";
 			if (!std::filesystem::exists(bo3Folder))
 			{
