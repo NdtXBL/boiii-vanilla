@@ -70,6 +70,7 @@ DataSources.StartMenuGameOptions = ListHelper_SetupDataSource("StartMenuGameOpti
 			table.insert(options, {models = {displayText = "MENU_QUIT_GAME_CAPS", action = QuitGame_MP}})
 		end
 	end
-	table.insert(options, {models = {displayText = "QUIT TO DESKTOP", action = OpenPCQuit}})
+	--Removed the quit button that closed the entire BO3. This made was in the way and made it annoying due to a strategy we go for called Exit Warping. Basically, we exit and resume story alot
+	--to manipulate story progression so we'd probably be annoying from that quit button if we had to deal with it. ~Ndt
 	return options
 end, true)

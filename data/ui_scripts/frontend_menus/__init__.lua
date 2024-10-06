@@ -42,7 +42,8 @@ CoD.LobbyButtons.MP_START_GAME = {
 }
 
 CoD.LobbyButtons.SETTING_UP_BOTS = {
-  stringRef = "MENU_SETUP_BOTS_CAPS",
+  --idk, i like this better lol. ~Ndt
+  stringRef = "MPUI_FIND_MATCH_CAPS",
   action = function(self, element, controller, param, menu)
     SetPerControllerTableProperty(controller, "disableGameSettingsOptions", true)
     OpenPopup(menu, "GameSettings_Bots", controller)

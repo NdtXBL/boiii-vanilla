@@ -105,7 +105,7 @@ DataSources.OptionGraphicsVideo = DataSourceHelpers.ListSetup( "PC.OptionGraphic
 			description = "PLATFORM_MAX_FPS_DESC",
 			profileVarName = "com_maxfps",
 			lowValue = 24,
-			highValue = 500,
+			highValue = 240,
 			useIntegerDisplay = 1,
 			widgetType = "slider"
 		},

@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
 
-    <title>BOIII</title>
+    <title>BOIII Vanilla</title>
 
     <style>
       * {
@@ -74,11 +74,11 @@
       .content {
         width: 100%;
         text-align: center;
-        padding-top: 30px;
+        padding-top: 8px;
       }
 
       div.button {
-        margin: 5px 10px;
+        margin: 3px 7px;
         display: inline-block;
         border: 1px solid #44413f;
         color: rgba(244, 240, 235, 0.776);
@@ -100,15 +100,19 @@
         border: 1px solid #4a4745;
       }
 
-      h1,
-      h1 * {
-        font-size: 3rem;
-        font-weight: bold;
-        color: white;
+      h1, h1 * {
+    font-size: 3rem; /* Reduce the font size */
+    margin: 0; /* Remove default margin */
+margin-bottom: 10px; /* Remove default margin */
+    padding: 0; /* Remove default padding */
+}
 
-        font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-          Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-      }
+.subtitle {
+    margin-top: -90px; /* Subtitle much closer to the title */
+    margin-bottom: 55px; /* Space before the buttons */
+    color: #3f00ff; /* Fallback solid color */
+    font-size: 1.2rem;
+}
     </style>
   </head>
 
@@ -117,17 +121,30 @@
 
     <div class="content">
       <h1>
-        <span style="color: #ffffff">EZZ</span
-        ><span style="color: #f97316"> </span
-        ><span style="color: #f97316">B</span
-        ><span style="color: #ec511c">O</span
-        ><span style="color: #e53f21">I</span
-        ><span style="color: #e23623">I</span
-        ><span style="color: #dc2626">I</span>
+        <div class="content">
+   <svg width="50%" height="50%">
+     <defs>
+       <linearGradient id="gradient" gradientTransform="rotate(90)">
+         <stop offset="0%" stop-color="#3f00ff" />
+         <stop offset="100%" stop-color="#bf5fff" />
+       </linearGradient>
+     </defs>
+     <text x="50%" y="50%" fill="url(#gradient)" text-anchor="middle" font-size="48" font-family="Segoe UI">
+       BOIII Vanilla
+     </text>
+   </svg>
+</div>
       </h1>
-      <div class="button" onclick="window.external.runGame()">Play</div>
-      <div class="button" onclick="window.external.openUrl('https://dc.ezz.lol')">
-        Discord
+      <div class="subtitle">Modified by Ndt</div>
+      <div class="button" onclick="window.external.runGame()">Launch Game</div>
+      <div class="button" onclick="window.external.openUrl('https://discord.gg/uBNVzNm7')">
+        Ndt Discord
+      </div>
+	<div class="button" onclick="window.external.openUrl('https://dc.ezz.lol')">
+        Ezz Discord
+      </div>
+      <div class="button" onclick="window.external.openUrl('https://www.speedrun.com/bo3')">
+        BO3 Speedrun
       </div>
     </div>
 
