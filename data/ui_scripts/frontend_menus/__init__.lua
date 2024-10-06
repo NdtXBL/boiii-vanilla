@@ -11,7 +11,8 @@ require("datasources_change_map_categories")
 require("datasources_gamesettingsflyout_buttons")
 
 CoD.LobbyButtons.MP_PUBLIC_MATCH = {
-  stringRef = "MENU_PLAY_CAPS",
+  --idk, i like this better lol. ~Ndt
+  stringRef = "MENU_MATCHMAKING_CAPS",
   action = NavigateToLobby_SelectionList,
   param = "MPLobbyOnline",
   customId = "btnPublicMatch",
@@ -42,8 +43,7 @@ CoD.LobbyButtons.MP_START_GAME = {
 }
 
 CoD.LobbyButtons.SETTING_UP_BOTS = {
-  --idk, i like this better lol. ~Ndt
-  stringRef = "MPUI_FIND_MATCH_CAPS",
+  stringRef = "MENU_SETUP_BOTS_CAPS",
   action = function(self, element, controller, param, menu)
     SetPerControllerTableProperty(controller, "disableGameSettingsOptions", true)
     OpenPopup(menu, "GameSettings_Bots", controller)
