@@ -13,9 +13,9 @@
 #define UPDATE_SERVER "https://bo3.ezz.lol/"
 
 #define UPDATE_FILE_MAIN UPDATE_SERVER "boiii.json"
-#define UPDATE_FOLDER_MAIN UPDATE_SERVER "boiii/"
+#define UPDATE_FOLDER_MAIN UPDATE_SERVER "boiii_vanilla/"
 
-#define UPDATE_HOST_BINARY "boiii.exe"
+#define UPDATE_HOST_BINARY "boiii-vanilla.exe"
 
 namespace updater
 {
@@ -186,6 +186,10 @@ namespace updater
 
 	std::vector<file_info> file_updater::get_outdated_files(const std::vector<file_info>& files) const
 	{
+
+		return {};
+
+		/*
 		std::vector<file_info> outdated_files{};
 
 		for (const auto& info : files)
@@ -196,7 +200,7 @@ namespace updater
 			}
 		}
 
-		return outdated_files;
+		return outdated_files;*/
 	}
 
 	void file_updater::update_host_binary(const std::vector<file_info>& outdated_files) const
