@@ -2,11 +2,7 @@
 
 Modified version of the BOIII Ezz client: https://github.com/Ezz-lol/boiii-free
 
-BOIII Ezz Client has a few features that can interfere with the campaign which has been
-resolved on this version of the client. It is still cross-platform with other versions of
-the BOIII client. Due to the features of the Ezz client making it so you could potentially
-tamper with runs, that client will be banned from campaign speedruns. That is the point of
-this client, which will be allowed in runs.
+BOIII Vanilla is a slightly modified version of the Ezz Client, designed to avoid their features that interfere with the campaign mode. This version ensures compatibility with other BOIII clients while resolving issues related to tampering with campaign speedruns. Unlike the Ezz Client, which is banned from speedruns due to potential exploitation, BOIII Vanilla is permitted for use in campaign runs.
 
 **Changes (vs Ezz Client):**
 - Disabled the developer console in un-modified environments
