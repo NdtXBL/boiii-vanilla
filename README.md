@@ -12,7 +12,7 @@ this client, which will be allowed in runs.
 - Disabled the developer console in un-modified environments
 - Disabled all external console commands besides "/connect" since it is needed for co-op
 - Disabled some of the stats features (unlock all, class slots, etc.) as they crossed over to the campaign unfortunately
-- Re-enabled the safehouse countdown feature as it was removed in Ezz. I loved this but it provides an unfair advantage against vanilla BO3 :(.
+- Re-enabled the safehouse countdown feature as it was removed in Ezz. I loved this but it provides an unfair advantage against vanilla BO3.
 - Lowered Max FPS back down to 240 (as it was in vanilla BO3) due to the unfair advantage. May add this back but I'll have to see what the community thinks of this.
 
 **Why Use This Over Vanilla BO3?**
