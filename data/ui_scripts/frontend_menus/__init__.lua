@@ -90,7 +90,7 @@ local addCustomButtons = function(controller, menuId, buttonTable, isLeader)
     utils.RemoveSpaces(buttonTable)
     local theaterIndex = utils.GetButtonIndex(buttonTable, CoD.LobbyButtons.THEATER_MP)
     if theaterIndex ~= nil then
-      utils.AddSpacer(buttonTable, theaterIndex - 1)
+      utils.AddSpacer(buttonTable, theaterIndex)
     end
   end
 
