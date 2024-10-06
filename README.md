@@ -9,7 +9,7 @@ BOIII Vanilla is a slightly modified version of the Ezz Client, designed to avoi
 - Disabled all external console commands besides "/connect" since it is needed for co-op
 - Disabled some of the stats features (unlock all, class slots, etc.) as they crossed over to the campaign unfortunately
 - Re-enabled the safehouse countdown feature as it was removed in Ezz. I loved this but it provides an unfair advantage against vanilla BO3.
-- Lowered Max FPS back down to 240 (as it was in vanilla BO3) due to the unfair advantage. May add this back but I'll have to see what the community thinks of this.
+- Lowered Max FPS back down to 240 (as it was in vanilla BO3) due to the unfair advantage.
 
 **Why Use This Over Vanilla BO3?**
 - For most people, the BOIII client runs much smoother than BO3 due to the FPS issues associated with the steam update
