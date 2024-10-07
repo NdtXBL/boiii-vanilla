@@ -67,10 +67,9 @@ namespace loot
 			return liveinventory_getitemquantity_hook.invoke<int>(controller_index, item_id);
 		}
 
-		bool liveinventory_areextraslotspurchased_stub(game::eModes mode, const game::ControllerIndex_t controller_index)
+		bool liveinventory_areextraslotspurchased_stub(const game::ControllerIndex_t controller_index)
 		{
-			//disabled in the campaign as it provides an unfair advantage on NG (and glitchless NG) runs
-			if (dvar_cg_unlockall_cac_slots->current.value.enabled && mode != game::eModes::MODE_CAMPAIGN)
+			if (dvar_cg_unlockall_cac_slots->current.value.enabled)
 			{
 				return true;
 			}

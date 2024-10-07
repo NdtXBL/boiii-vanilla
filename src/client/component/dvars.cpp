@@ -7,6 +7,7 @@
 #include <utils/hook.hpp>
 #include <utils/io.hpp>
 #include <utils/string.hpp>
+#include <game\utils.hpp>
 
 namespace dvars
 {
@@ -133,7 +134,20 @@ namespace dvars
 				const auto name = dvar->debugName;
 				const auto value = game::Dvar_DisplayableValue(dvar);
 
-				config_buffer.append(utils::string::va("set %s \"%s\"\n", name, value));
+				//only saves these dvars to the config. this is to avoid dvars like developer, timescale, etc. from being set to unmodified environment after quitting while in a mod and reloading the game.
+				const auto stringname = std::string(name);
+				if (stringname == "cg_unlockall_loot" ||
+					stringname == "cg_unlockall_purchases" ||
+					stringname == "cg_unlockall_attachments" ||
+					stringname == "cg_unlockall_camos_and_reticles" ||
+					stringname == "cg_unlockall_calling_cards" ||
+					stringname == "cg_unlockall_specialists_outfits" ||
+					stringname == "cg_unlockall_cac_slots" ||
+					stringname == "all_ee_completed")
+				{
+					config_buffer.append(utils::string::va("set %s \"%s\"\n", name, value));
+				}
+				
 			}
 
 			if (config_buffer.length() == 0)
@@ -181,7 +195,7 @@ namespace dvars
 			std::string filedata;
 			utils::io::read_file(path, &filedata);
 
-			game::Cbuf_ExecuteBuffer(0, game::ControllerIndex_t::CONTROLLER_INDEX_0, filedata.c_str());
+			game::Cbuf_ExecuteBuffer(0, game::ControllerIndex_t::CONTROLLER_INDEX_0, filedata.c_str()); //this caused a weird controller issue that ended up going away eventually. idk what that was about.
 			initial_config_read = true;
 			scheduler::execute(scheduler::pipeline::dvars_loaded);
 		}
