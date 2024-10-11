@@ -42,6 +42,15 @@ CoD.LobbyButtons.MP_START_GAME = {
   customId = "btnStartGame"
 }
 
+CoD.LobbyButtons.MP_LAN = {
+  stringRef = "MENU_MULTIPLAYER_CAPS",
+  action = NavigateToLobby_SelectionList,
+  param = "MPLobbyLANGame",
+  customId = "btnMP",
+  selectedFunc = IsMostRecentSessionMode,
+  selectedParam = Enum.eModes.MODE_MULTIPLAYER
+}
+
 CoD.LobbyButtons.SETTING_UP_BOTS = {
   stringRef = "MENU_SETUP_BOTS_CAPS",
   action = function(self, element, controller, param, menu)
